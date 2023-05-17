@@ -6,7 +6,7 @@
 
 typedef struct
 {
-  char data[MAX_SIZE];
+  char data[MAX_SIZE];  // 存储每个元素的值
   int parent[MAX_SIZE]; // 存储每个元素的父节点，-1表示该元素是树根
 } UFDSets;
 
@@ -25,11 +25,18 @@ int Find(UFDSets sets, int index)
 {
   if (index >= MAX_SIZE) // 判断index是否越界
     return index;
-  while (sets.parent[index] > -1) // 如果当前节点不是根节点，则继续向上查找其父节点，直到找到根节点
+  int root = index;
+  while (sets.parent[root] > -1) // 如果当前节点不是根节点，则继续向上查找其父节点，直到找到根节点
   {
-    index = sets.parent[index];
+    root = sets.parent[root];
   }
-  return index; // 返回根节点的索引
+  while (index != root) // 将查找路径上的所有节点都直接连接到根节点上，路径压缩
+  {
+    int p = sets.parent[index];
+    sets.parent[index] = root;
+    index = p;
+  }
+  return root; // 返回根节点的索引
 }
 
 // 合并两棵树，p和q是两个要合并的元素的索引
@@ -61,19 +68,19 @@ int UnionByGraph(UFDSets *sets, int graph[MAX_SIZE][MAX_SIZE])
 {
   for (int i = 0; i < MAX_SIZE; i++)
   {
-    for (int j = i + 1; j < MAX_SIZE; j++) // 遍历上三角部分
+    for (int j = i + 1; j < MAX_SIZE; j++) // 遍历上三角部分，避免重复遍历
     {
-      if (graph[i][j] != 0)
-        Union(sets, i, j); // 对每条边进行Union操作
+      if (graph[i][j] != 0) // 如果两个元素之间有边，则进行Union操作
+        Union(sets, i, j);
     }
   }
   int count = 0;
   for (int i = 0; i < MAX_SIZE; i++) // 计算并查集中有多少个连通分量
   {
-    if (sets->parent[i] < 0)
+    if (sets->parent[i] < 0) // 如果一个元素的父节点为-1，则表示该元素是一棵树的根节点，即该元素所在的连通分量
       count++;
   }
-  return count;
+  return count; // 返回连通分量的数量
 }
 
 // 打印并查集中每个元素及其父节点
