@@ -38,9 +38,9 @@ void Union(UFDSets *sets, int p, int q)
   if (p >= MAX_SIZE || q >= MAX_SIZE) // 判断索引是否越界
     return;
 
-  int pp = Find(*sets, p);                          // 获取p所在树的根节点
-  int qp = Find(*sets, q);                          // 获取q所在树的根节点
-  if (pp >= MAX_SIZE || qp >= MAX_SIZE || pp == qp) // 判断根节点是否相同或者越界
+  int pp = Find(*sets, p); // 获取p所在树的根节点
+  int qp = Find(*sets, q); // 获取q所在树的根节点
+  if (pp == qp)            // 判断根节点是否相同
     return;
 
   // 将两棵树合并，将小的树作为大树的子树
@@ -56,17 +56,24 @@ void Union(UFDSets *sets, int p, int q)
   }
 }
 
-// 根据给定的邻接矩阵构建图，并对每条边进行Union操作，最后得到一个连通分量
-void UnionByGraph(UFDSets *sets, int graph[MAX_SIZE][MAX_SIZE])
+// 根据给定的邻接矩阵构建图，遍历上三角部分，并对每条边进行Union操作，最后得到一个连通分量
+int UnionByGraph(UFDSets *sets, int graph[MAX_SIZE][MAX_SIZE])
 {
   for (int i = 0; i < MAX_SIZE; i++)
   {
-    for (int j = 0; j < MAX_SIZE; j++)
+    for (int j = i + 1; j < MAX_SIZE; j++) // 遍历上三角部分
     {
       if (graph[i][j] != 0)
-        Union(sets, i, j);
+        Union(sets, i, j); // 对每条边进行Union操作
     }
   }
+  int count = 0;
+  for (int i = 0; i < MAX_SIZE; i++) // 计算并查集中有多少个连通分量
+  {
+    if (sets->parent[i] < 0)
+      count++;
+  }
+  return count;
 }
 
 // 打印并查集中每个元素及其父节点
@@ -91,7 +98,7 @@ int main()
       {0, 0, 0, 0, 1},
       {0, 0, 0, 1, 0},
   };
-  UnionByGraph(&S, Graph);
+  printf("The Graph have %d connected component(s).\n", UnionByGraph(&S, Graph)); // 输出连通分量的数量
   PrintUFDSets(S);
   return 0;
 }
