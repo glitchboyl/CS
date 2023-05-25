@@ -12,6 +12,14 @@ typedef struct LinkedNode
   struct LinkedNode *next;
 } LinkedNode, *LinkedList;
 
+LinkedNode *CreateNode(char ch)
+{
+  LinkedNode *node = (LinkedNode *)malloc(sizeof(LinkedNode));
+  node->ch = ch;
+  node->next = NULL;
+  return node;
+};
+
 void Init(LinkedList *str1, LinkedList *str2)
 {
   *str1 = (LinkedNode *)malloc(sizeof(LinkedNode));
@@ -21,28 +29,19 @@ void Init(LinkedList *str1, LinkedList *str2)
   int length = strlen(s1);
   for (int i = 0; i < length; i++)
   {
-    LinkedNode *node = (LinkedNode *)malloc(sizeof(LinkedNode));
-    node->ch = s1[i];
-    node->next = NULL;
-    p->next = node;
+    p->next = CreateNode(s1[i]);
     p = p->next;
   }
   length = strlen(s2);
   for (int i = 0; i < length; i++)
   {
-    LinkedNode *node = (LinkedNode *)malloc(sizeof(LinkedNode));
-    node->ch = s2[i];
-    node->next = NULL;
-    q->next = node;
+    q->next = CreateNode(s2[i]);
     q = q->next;
   }
   length = strlen(suffix);
   for (int i = 0; i < length; i++)
   {
-    LinkedNode *node = (LinkedNode *)malloc(sizeof(LinkedNode));
-    node->ch = suffix[i];
-    node->next = NULL;
-    p->next = q->next = node;
+    p->next = q->next = CreateNode(suffix[i]);
     p = p->next;
     q = q->next;
   }
