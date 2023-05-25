@@ -1,5 +1,5 @@
 // 设将 (n > 1)个整数存放到一维数组 R 中。试设计一个在时间和空间两方面都尽可能高效的算法。
-// 将R中保存的序列循环左移p (o<p<n) 个位置
+// 将R中保存的序列循环左移p (0<p<n) 个位置
 
 #include <stdio.h>
 
@@ -21,7 +21,7 @@ void LeftShift(int *arr, int length, int p)
   reverse(arr, 0, p - 1);
   // 翻转剩下的 n-p 个元素
   reverse(arr, p, length - 1);
-  // // 翻转整个数组
+  // 翻转整个数组
   reverse(arr, 0, length - 1);
 }
 
