@@ -8,7 +8,7 @@ typedef struct AVLTreeNode // AVL树结点结构体
   int key;                             // 结点键值
   int height;                          // 结点高度
   struct AVLTreeNode *lchild, *rchild; // 左右子树指针
-} AVLTreeNode, *AVLTree;               // AVLTree是AVL树的指针类型，指向根节点
+} AVLTreeNode, *AVLTree;               // AVLTree是AVL树的指针类型，指向根结点
 
 // 获取结点高度
 int GetHeight(AVLTreeNode *node)
@@ -49,7 +49,7 @@ AVLTreeNode *Insert(AVLTree *tree, int key)
 {
   if (!(*tree)) // 如果树为空
   {
-    *tree = CreateNode(key); // 创建新结点并作为树的根节点
+    *tree = CreateNode(key); // 创建新结点并作为树的根结点
     return *tree;
   }
   if (key < (*tree)->key) // 如果插入值小于当前结点键值
@@ -116,6 +116,7 @@ AVLTreeNode *Insert(AVLTree *tree, int key)
   UpdateHeight(*tree); // 更新当前结点高度
   return *tree;
 }
+
 // AVL树的删除操作
 void Delete(AVLTree *tree, int n)
 {
@@ -123,7 +124,7 @@ void Delete(AVLTree *tree, int n)
   if (!p)
     return;
 
-  // 用数组存储路径上的所有节点
+  // 用数组存储路径上的所有结点
   AVLTreeNode *routes[MAX_HEIGHT + 1];
   int h = 0;
 
@@ -142,7 +143,7 @@ void Delete(AVLTree *tree, int n)
     return;
   routes[h] = p;
 
-  // 被删除节点只有一个子节点或没有子节点
+  // 被删除结点只有一个子结点或没有子结点
   if (p->height == 1)
   {
     if (h > 0)
@@ -164,7 +165,7 @@ void Delete(AVLTree *tree, int n)
       return;
     }
   }
-  // 被删除节点有两个子节点
+  // 被删除结点有两个子结点
   else
   {
     int balance = GetBalance(p);
@@ -177,7 +178,7 @@ void Delete(AVLTree *tree, int n)
         routes[++h] = q;
         q = q->lchild;
       }
-      // 用前驱节点代替被删除节点
+      // 用前驱结点代替被删除结点
       p->key = q->key;
       if (q == p->rchild)
         p->rchild = q->rchild;
@@ -192,7 +193,7 @@ void Delete(AVLTree *tree, int n)
         routes[++h] = q;
         q = q->rchild;
       }
-      // 用后继节点代替被删除节点
+      // 用后继结点代替被删除结点
       p->key = q->key;
       if (q == p->lchild)
         p->lchild = q->lchild;
@@ -202,12 +203,12 @@ void Delete(AVLTree *tree, int n)
     free(q);
   }
 
-  // 自底向上更新节点的高度并恢复平衡
+  // 自底向上更新结点的高度并恢复平衡
   for (int i = h; i >= 0; i--)
   {
     UpdateHeight(routes[i]);
     int balance = GetBalance(routes[i]);
-    if (abs(balance) > 1) // 节点不平衡，需要旋转操作
+    if (abs(balance) > 1) // 结点不平衡，需要旋转操作
     {
       AVLTreeNode *p;
       if (balance > 0) // 左子树高度更大
@@ -224,7 +225,7 @@ void Delete(AVLTree *tree, int n)
       }
       UpdateHeight(routes[i]);
       UpdateHeight(p);
-      if (routes[i] == *tree) // 更新根节点
+      if (routes[i] == *tree) // 更新根结点
       {
         *tree = p;
       }
@@ -232,7 +233,7 @@ void Delete(AVLTree *tree, int n)
   }
 }
 
-// 输出单个节点及其子树
+// 输出单个结点及其子树
 void PrintAVLTreeNode(AVLTreeNode *node)
 {
   if (node)
@@ -267,14 +268,14 @@ int main()
   int insertKeys[] = {50, 26, 66, 21, 30, 60, 70, 68};
   int insertLength = sizeof(insertKeys) / sizeof(int);
 
-  // 插入节点并输出AVL树
+  // 插入结点并输出AVL树
   for (int i = 0; i < insertLength; i++)
   {
     Insert(&T, insertKeys[i]);
   }
   PrintAVLTree(T);
 
-  // 插入新节点并输出AVL树
+  // 插入新结点并输出AVL树
   Insert(&T, 67);
   PrintAVLTree(T);
   Insert(&T, 90);
@@ -293,7 +294,7 @@ int main()
   int deleteKeys[] = {50, 24, 21, 68, 90, 67};
   int deleteLength = sizeof(deleteKeys) / sizeof(int);
 
-  // 删除节点并输出AVL树
+  // 删除结点并输出AVL树
   for (int i = 0; i < deleteLength; i++)
   {
     Delete(&T, deleteKeys[i]);
