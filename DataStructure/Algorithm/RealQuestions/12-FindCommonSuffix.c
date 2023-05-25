@@ -63,7 +63,8 @@ void FindCommonSuffix(LinkedList str1, LinkedList str2)
   }
   p = str1;
   q = str2;
-  for (int k = 0; k < abs(len1 - len2); k++)
+  int d = abs(len1 - len2);
+  for (int k = 0; k < d; k++)
   {
     if (len1 > len2)
     {
