@@ -22,6 +22,7 @@ int FindMajorityElement(int *arr, int length)
       index = i;
     }
   }
+  free(temp);
   if (count > length / 2)
     return arr[index];
   return -1;
