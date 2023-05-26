@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-int FindMiddle(int A[], int B[], int length)
+int FindMiddleNumber(int A[], int B[], int length)
 {
   int a = 0, b = 0, result;
   for (int i = 0; i < length; i++)
