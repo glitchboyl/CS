@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int FirstMissingPositive(int arr[], int length)
+int FirstMissingPositiveInt(int arr[], int length)
 {
   bool *flags = (bool *)malloc(length * sizeof(bool));
   for (int i = 0; i < length; i++)
@@ -28,7 +28,7 @@ int main()
 {
   int A[] = {-5, 3, 2, 3};
   int B[] = {1, 2, 3};
-  printf("the first missing positive int of A is equals %d\n", FirstMissingPositive(A, sizeof(A) / sizeof(int)));
-  printf("the first missing positive int of B is equals %d\n", FirstMissingPositive(B, sizeof(B) / sizeof(int)));
+  printf("the first missing positive int of A is equals %d\n", FirstMissingPositiveInt(A, sizeof(A) / sizeof(int)));
+  printf("the first missing positive int of B is equals %d\n", FirstMissingPositiveInt(B, sizeof(B) / sizeof(int)));
   return 0;
 }
