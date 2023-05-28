@@ -5,17 +5,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <limits.h> // INT_MAX
 
 void TriadMinimalDistance(int S1[], int S2[], int S3[], int l1, int l2, int l3)
 {
-  int a = 0, b = 0, c = 0, distance = abs(S1[a] - S2[b]) + abs(S2[b] - S3[c]) + abs(S3[c] - S1[a]);
+  int a = 0, b = 0, c = 0, distance = INT_MAX;
 
   // brute force solution
-  // for (int i = 0; i < l1; i++)
+  // for (int i = a; i < l1; i++)
   // {
-  //   for (int j = 0; j < l2; j++)
+  //   for (int j = b; j < l2; j++)
   //   {
-  //     for (int k = 1; k < l3; k++)
+  //     for (int k = c; k < l3; k++)
   //     {
   //       int d = abs(S1[i] - S2[j]) + abs(S2[j] - S3[k]) + abs(S3[k] - S1[i]);
   //       if (d < distance)
@@ -30,7 +31,7 @@ void TriadMinimalDistance(int S1[], int S2[], int S3[], int l1, int l2, int l3)
   // }
 
   // perfect solution?
-  int pa = a, pb = b, pc = c + 1;
+  int pa = a, pb = b, pc = c;
   while (pa != l1 - 1 || pb != l2 - 1 || pc != l3 - 1)
   {
     int d = abs(S1[pa] - S2[pb]) + abs(S2[pb] - S3[pc]) + abs(S3[pc] - S1[pa]);
